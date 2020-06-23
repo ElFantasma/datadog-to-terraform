@@ -7,17 +7,18 @@ function onClick() {
 
   try {
       var terraformAlarmCode;
-      if (document.getElementById('monitorChoice').checked) {
+      var parsedDatadog = JSON.parse(datadogJson)
+      if ('widgets' in parsedDatadog) {
+        terraformAlarmCode = generateDashboardTerraformCode(
+          resourceName,
+          parsedDatadog
+        );
+      } else {
           //rate_value = document.getElementById('r1').value;
           terraformAlarmCode = generateTerraformCode(
-              resourceName,
-              JSON.parse(datadogJson)
-          );
-      } else {
-          terraformAlarmCode = generateDashboardTerraformCode(
-              resourceName,
-              JSON.parse(datadogJson)
-          );
+            resourceName,
+            parsedDatadog
+        );
       }
 
     addDomElementsForResult(terraformAlarmCode);
